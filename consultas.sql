@@ -14,7 +14,7 @@ SELECT
    fecha_de_nacimiento,
    fecha_de_registro,
    cod_nacionalidad
-FROM usuarios
+FROM usuarios;
 
 --- LISTAR TODAS LAS AMISTADES DE LA RED SOCIAL ---
 
@@ -22,7 +22,7 @@ SELECT
    A.usuario_solicitante,
    A.usuario_receptor
 FROM Amistades A
-WHERE A.estado = 'aceptada'
+WHERE A.estado = 'aceptada';
 
 --- LISTAR LOS AMIGOS DE UN USUARIO PARTICULAR DE LA RED SOCIAL ----
 
@@ -56,6 +56,7 @@ FROM paises AS p
 LEFT JOIN usuarios AS u ON u.cod_nacionalidad = p.codigo
 WHERE u.nombre_de_usuario IS NOT NULL
 GROUP BY p.nombre
+ORDER BY cantidad DESC;
 
 --- REALIZAR UNA PUBLICACIÓN (DAR UN EJEMPLO DE CADA TIPO) ---
 
@@ -84,7 +85,7 @@ UPDATE publicaciones
 SET
    contenido = 'La dirigencia tiene que traer refuerzos!',
    fecha_actualizacion = NOW()
-WHERE id_publicacion = 1;
+WHERE id_publicacion = 10;
 
 /*IMAGEN*/
 UPDATE publicaciones
@@ -94,6 +95,7 @@ SET
    url = 'https://estadiosdb.com/pictures/stadiums/arg/el_fortin/el_fortin24.jpg',
    formato = 'JPG'
 WHERE id_publicacion = 11;
+
 /*VIDEO*/
 UPDATE publicaciones
 SET
@@ -105,9 +107,9 @@ WHERE id_publicacion = 12;
 
 --- ELIMINAR UNA PUBLICACIÓN (DAR UN EJEMPLO DE CADA TIPO) ---
 
-DELETE FROM Publicaciones WHERE id_publicacion = 1 AND tipo='Texto';
-DELETE FROM Publicaciones WHERE id_publicacion = 2 AND tipo='Video';
-DELETE FROM Publicaciones WHERE id_publicacion = 3 AND tipo='Imagen';
+DELETE FROM Publicaciones WHERE id_publicacion = 10 AND tipo='Texto';
+DELETE FROM Publicaciones WHERE id_publicacion = 11 AND tipo='Imagen';
+DELETE FROM Publicaciones WHERE id_publicacion = 12 AND tipo='Video';
 
 --- DESREGISTRAR A UN USUARIO DE LA APLICACIÓN (DAR UN EJEMPLO) ---
 
@@ -121,7 +123,7 @@ JOIN (
    SELECT id_publicacion, COUNT(*) AS cantidad_destacados
    FROM Publicaciones_destacadas_por_usuarios
    GROUP BY id_publicacion
-   ORDER BY cantidad_destacados ASC
+   ORDER BY cantidad_destacados DESC
    LIMIT 5
 ) AS topPublicacion ON P.id_publicacion=topPublicacion.id_publicacion;
 
