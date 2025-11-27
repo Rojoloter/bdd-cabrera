@@ -1,6 +1,7 @@
 --- REGISTRAR UN USUARIO ----
 
-INSERT INTO usuarios (nombre_de_usuario, password_hash, nombre, apellido, mail, fecha_de_nacimiento, fecha_de_registro, cod_nacionalidad) VALUES
+INSERT INTO usuarios (nombre_de_usuario, password_hash, nombre, apellido, mail, 
+fecha_de_nacimiento, fecha_de_registro, cod_nacionalidad) VALUES
 ('BrianR', 'h123', 'Braian', 'Romero', 'brianr@example.com', '1991-06-15', NOW(), 'AR');
 
 --- LISTAR TODOS LOS USUARIOS DE LA RED SOCIAL----
@@ -66,13 +67,15 @@ VALUES (NOW(), NOW(), 'Yendo a la cancha a alentar a Vélez', 'Texto', NULL, NUL
 
 /*IMAGEN*/
 INSERT INTO publicaciones (fecha_publicacion, fecha_actualizacion, contenido, tipo, formato, url, autor, id_grupo)
-VALUES (NOW(), NOW(), 'Fotito en el Amalfitani', 'Imagen', 'JPG', 'https://upload.wikimedia.org/wikipedia/commons/6/6b/Estadio_Jos%C3%A9_Amalfitani_2025.jpg', 'BrianR', NULL);
+VALUES (NOW(), NOW(), 'Fotito en el Amalfitani', 'Imagen', 'JPG',
+ 'https://upload.wikimedia.org/wikipedia/commons/6/6b/Estadio_Jos%C3%A9_Amalfitani_2025.jpg', 'BrianR', NULL);
 
 
 
 /*VIDEO*/
 INSERT INTO publicaciones (fecha_publicacion, fecha_actualizacion, contenido, tipo, formato, url, autor, id_grupo)
-VALUES (NOW(), NOW(), 'Golazo del Tanque Silva', 'Video', 'MP4', 'https://www.youtube.com/watch?v=AOkV00hGplc', 'BrianR', NULL);
+VALUES (NOW(), NOW(), 'Golazo del Tanque Silva', 'Video', 'MP4',
+ 'https://www.youtube.com/watch?v=AOkV00hGplc', 'BrianR', NULL);
 
 --- ACTUALIZAR UNA PUBLICACIÓN (DAR UN EJEMPLO DE CADA TIPO) ---
 
@@ -122,12 +125,13 @@ JOIN (
    LIMIT 5
 ) AS topPublicacion ON P.id_publicacion=topPublicacion.id_publicacion;
 
---- MOSTRAR LOS USUARIOS MAS POPULARES BASANDOSE EN LA CANTIDAD DE PUBLICACIONES "FAVORITAS" QUE POSEEN SUS PUBLICACIONES ---
+--- MOSTRAR LOS USUARIOS MAS POPULARES BASANDOSE EN LA CANTIDAD DE PUBLICACIONES "FAVORITAS" 
+--- QUE POSEEN SUS PUBLICACIONES ---
 
-SELECT U.*, COUNT(UDP.id_publicacion) AS total_likes_recibidos
+SELECT U.nombre_de_usuario, COUNT(UDP.id_publicacion) AS cantidad_destacados
 FROM usuarios U
 JOIN publicaciones P ON P.autor=U.nombre_de_usuario
 JOIN Publicaciones_destacadas_por_usuarios UDP ON P.id_publicacion=UDP.id_publicacion
 GROUP BY U.nombre_de_usuario
-ORDER BY total_likes_recibidos DESC
+ORDER BY cantidad_destacados DESC
 LIMIT 5;
